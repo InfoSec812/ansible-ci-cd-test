@@ -21,13 +21,3 @@ objects:
     name: {{ GROUP }}                            
   groupNames:
   - "{{ GROUP }}"
-parameters:    
-- name: ROLE
-  displayName: Role
-  description: The role to bind to the group
-  required: true
-  value: edit
-- name: GROUP
-  displayName: Group
-  description: The group to bind to the role
-  required: true

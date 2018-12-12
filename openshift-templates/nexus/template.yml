@@ -125,24 +125,3 @@ objects:
       name: "{{ NAME }}"
       weight: 100
     wildcardPolicy: None
-parameters:
-- name: NAME
-  displayName: Name
-  description: The name assigned to all objects and the resulting imagestream.
-  required: true
-  value: nexus
-- description: Volume space available for data, e.g. 512Mi, 2Gi.
-  displayName: Volume Capacity
-  name: VOLUME_CAPACITY
-  required: true
-  value: 1Gi
-- description: Maximum amount of memory the container can use.
-  displayName: Memory Limit
-  name: MEMORY_LIMIT
-  value: 1Gi
-- description: The Container Image to use for the ImageStream
-  displayName: Nexus Container Image
-  name: CONTAINER_IMAGE
-  value: sonatype/nexus3:3.7.1
-labels:
-  template: nexus-persistent-template

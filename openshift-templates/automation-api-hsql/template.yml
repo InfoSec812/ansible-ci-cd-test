@@ -123,14 +123,3 @@ objects:
     namespace: "{{ PIPELINES_NAMESPACE }}"
   userNames:
   - system:serviceaccount:{{ PIPELINES_NAMESPACE }}:jenkins
-parameters:
-- name: NAME
-  displayName: Name
-  description: The name assigned to all objects and the related imagestream.
-  required: true
-- name: PIPELINES_NAMESPACE
-  displayName: Project/Namespace for Jenkins Pipelines
-  description: The project/namespace where the Jenkins executing pipelines is deployed.
-  required: true
-labels:
-  template: http-app-deploy-template

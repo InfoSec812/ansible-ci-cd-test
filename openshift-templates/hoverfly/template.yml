@@ -120,20 +120,3 @@ objects:
           name: {{ HOVERFLY_IMAGE_STREAM_TAG }}
           namespace: {{ NAMESPACE }}
     - type: ConfigChange
-parameters:
-- description: The name of the OpenShift Service exposed for the Hoverfly container.
-  displayName: Hoverfly Service Name
-  name: HOVERFLY_SERVICE_NAME
-  value: hoverfly
-- description: Name of the ImageStreamTag to be used for the Hoverfly image.
-  displayName: Hoverfly ImageStreamTag
-  name: HOVERFLY_IMAGE_STREAM_TAG
-  value: hoverfly:latest
-- description: The OpenShift Namespace where the Hoverfly ImageStream resides.
-  displayName: Hoverfly ImageStream Namespace
-  name: NAMESPACE
-  value: openshift
-- description: The memory limit for the Hoverfly container.
-  displayName: Hoverfly Memory Limit
-  name: MEMORY_LIMIT
-  value: 2Gi

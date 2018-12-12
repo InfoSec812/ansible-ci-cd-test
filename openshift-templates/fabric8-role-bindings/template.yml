@@ -21,10 +21,3 @@ objects:
   - kind: SystemGroup
     name: system:serviceaccounts:{{ APP_NAMESPACE }}
   userNames: 
-parameters:
-- name: APP_NAMESPACE
-  displayName: Project/Namespace for the App
-  description: The project/namespace where the App is deployed.
-  required: true
-labels:
-  template: fabric8-deploy-role-bindings-template
