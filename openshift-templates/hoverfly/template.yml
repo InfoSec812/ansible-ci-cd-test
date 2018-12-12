@@ -17,21 +17,21 @@ objects:
 - apiVersion: v1
   kind: Route
   metadata:
-    name: ${HOVERFLY_SERVICE_NAME}
+    name: {{ HOVERFLY_SERVICE_NAME }}
     labels:
-      app: ${HOVERFLY_SERVICE_NAME}
+      app: {{ HOVERFLY_SERVICE_NAME }}
   spec:
     to:
       kind: Service
-      name: ${HOVERFLY_SERVICE_NAME}
+      name: {{ HOVERFLY_SERVICE_NAME }}
     port:
       targetPort: 8500-http
 - apiVersion: v1
   kind: Service
   metadata:
-    name: ${HOVERFLY_SERVICE_NAME}
+    name: {{ HOVERFLY_SERVICE_NAME }}
     labels:
-      app: ${HOVERFLY_SERVICE_NAME}
+      app: {{ HOVERFLY_SERVICE_NAME }}
   spec:
     ports:
     - name: 8500-http
@@ -43,31 +43,31 @@ objects:
       port: 8888
       targetPort: 8888
     selector:
-      app: ${HOVERFLY_SERVICE_NAME}
-      deploymentConfig: ${HOVERFLY_SERVICE_NAME}
+      app: {{ HOVERFLY_SERVICE_NAME }}
+      deploymentConfig: {{ HOVERFLY_SERVICE_NAME }}
     type: ClusterIP
     sessionAffinity: None
 - apiVersion: v1
   kind: DeploymentConfig
   metadata:
-    name: ${HOVERFLY_SERVICE_NAME}
+    name: {{ HOVERFLY_SERVICE_NAME }}
     labels:
-      app: ${HOVERFLY_SERVICE_NAME}
+      app: {{ HOVERFLY_SERVICE_NAME }}
   spec:
     replicas: 1
     selector:
-      app: ${HOVERFLY_SERVICE_NAME}
-      deploymentConfig: ${HOVERFLY_SERVICE_NAME}
+      app: {{ HOVERFLY_SERVICE_NAME }}
+      deploymentConfig: {{ HOVERFLY_SERVICE_NAME }}
     strategy:
       type: Recreate
     template:
       metadata:
         labels:
-          app: ${HOVERFLY_SERVICE_NAME}
-          deploymentConfig: ${HOVERFLY_SERVICE_NAME}
+          app: {{ HOVERFLY_SERVICE_NAME }}
+          deploymentConfig: {{ HOVERFLY_SERVICE_NAME }}
       spec:
         containers:
-        - name: ${HOVERFLY_SERVICE_NAME}
+        - name: {{ HOVERFLY_SERVICE_NAME }}
           image: ' '
           command:
             - 'hoverfly'
@@ -101,7 +101,7 @@ objects:
             failureThreshold: 3
           resources:
             limits:
-              memory: ${MEMORY_LIMIT}
+              memory: {{ MEMORY_LIMIT }}
             requests:
               memory: 512Mi
           terminationMessagePath: /dev/termination-log
@@ -114,11 +114,11 @@ objects:
       imageChangeParams:
         automatic: true
         containerNames:
-        - ${HOVERFLY_SERVICE_NAME}
+        - {{ HOVERFLY_SERVICE_NAME }}
         from:
           kind: ImageStreamTag
-          name: ${HOVERFLY_IMAGE_STREAM_TAG}
-          namespace: ${NAMESPACE}
+          name: {{ HOVERFLY_IMAGE_STREAM_TAG }}
+          namespace: {{ NAMESPACE }}
     - type: ConfigChange
 parameters:
 - description: The name of the OpenShift Service exposed for the Hoverfly container.

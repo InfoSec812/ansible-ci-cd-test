@@ -27,58 +27,58 @@ objects:
   metadata:
     annotations:
       template.openshift.io/expose-uri: http://{.spec.host}{.spec.path}
-    name: ${JENKINS_SERVICE_NAME}
+    name: {{ JENKINS_SERVICE_NAME }}
   spec:
     tls:
       insecureEdgeTerminationPolicy: Redirect
       termination: edge
     to:
       kind: Service
-      name: ${JENKINS_SERVICE_NAME}
+      name: {{ JENKINS_SERVICE_NAME }}
 - apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
-    name: ${JENKINS_SERVICE_NAME}
+    name: {{ JENKINS_SERVICE_NAME }}
   spec:
     accessModes:
     - ReadWriteOnce
     resources:
       requests:
-        storage: ${VOLUME_CAPACITY}
+        storage: {{ VOLUME_CAPACITY }}
 - apiVersion: v1
   kind: DeploymentConfig
   metadata:
-    name: ${JENKINS_SERVICE_NAME}
+    name: {{ JENKINS_SERVICE_NAME }}
     labels:
-      app: ${JENKINS_SERVICE_NAME}
+      app: {{ JENKINS_SERVICE_NAME }}
   spec:
     replicas: 1
     selector:
-      name: ${JENKINS_SERVICE_NAME}
+      name: {{ JENKINS_SERVICE_NAME }}
     strategy:
       type: Recreate
     template:
       metadata:
         labels:
-          name: ${JENKINS_SERVICE_NAME}
+          name: {{ JENKINS_SERVICE_NAME }}
       spec:
         containers:
         - capabilities: {}
           env:
           - name: OPENSHIFT_ENABLE_OAUTH
-            value: ${ENABLE_OAUTH}
+            value: {{ ENABLE_OAUTH }}
           - name: OPENSHIFT_ENABLE_REDIRECT_PROMPT
             value: "true"
           - name: OPENSHIFT_JENKINS_JVM_ARCH
-            value: ${JVM_ARCH}
+            value: {{ JVM_ARCH }}
           - name: KUBERNETES_MASTER
             value: https://kubernetes.default:443
           - name: KUBERNETES_TRUST_CERTIFICATES
             value: "true"
           - name: JNLP_SERVICE_NAME
-            value: ${JNLP_SERVICE_NAME}
+            value: {{ JNLP_SERVICE_NAME }}
           - name: JENKINS_OPTS
-            value: ${JENKINS_OPTS}
+            value: {{ JENKINS_OPTS }}
           image: ' '
           imagePullPolicy: IfNotPresent
           livenessProbe:
@@ -97,7 +97,7 @@ objects:
             timeoutSeconds: 3
           resources:
             limits:
-              memory: ${MEMORY_LIMIT}
+              memory: {{ MEMORY_LIMIT }}
             requests:
               memory: 512Mi
           securityContext:
@@ -106,14 +106,14 @@ objects:
           terminationMessagePath: /dev/termination-log
           volumeMounts:
           - mountPath: /var/lib/jenkins
-            name: ${JENKINS_SERVICE_NAME}-data
+            name: {{ JENKINS_SERVICE_NAME }}-data
         dnsPolicy: ClusterFirst
         restartPolicy: Always
-        serviceAccountName: ${JENKINS_SERVICE_NAME}
+        serviceAccountName: {{ JENKINS_SERVICE_NAME }}
         volumes:
-        - name: ${JENKINS_SERVICE_NAME}-data
+        - name: {{ JENKINS_SERVICE_NAME }}-data
           persistentVolumeClaim:
-            claimName: ${JENKINS_SERVICE_NAME}
+            claimName: {{ JENKINS_SERVICE_NAME }}
     triggers:
     - imageChangeParams:
         automatic: true
@@ -121,8 +121,8 @@ objects:
         - jenkins
         from:
           kind: ImageStreamTag
-          name: ${JENKINS_IMAGE_STREAM_TAG}
-          namespace: ${NAMESPACE}
+          name: {{ JENKINS_IMAGE_STREAM_TAG }}
+          namespace: {{ NAMESPACE }}
         lastTriggeredImage: ""
       type: ImageChange
     - type: ConfigChange
@@ -130,21 +130,21 @@ objects:
   kind: ServiceAccount
   metadata:
     annotations:
-      serviceaccounts.openshift.io/oauth-redirectreference.jenkins: '{"kind":"OAuthRedirectReference","apiVersion":"v1","reference":{"kind":"Route","name":"${JENKINS_SERVICE_NAME}"}}'
-    name: ${JENKINS_SERVICE_NAME}
+      serviceaccounts.openshift.io/oauth-redirectreference.jenkins: '{"kind":"OAuthRedirectReference","apiVersion":"v1","reference":{"kind":"Route","name":"{{ JENKINS_SERVICE_NAME }}"}}'
+    name: {{ JENKINS_SERVICE_NAME }}
 - apiVersion: v1
   kind: RoleBinding
   metadata:
-    name: ${JENKINS_SERVICE_NAME}_edit
+    name: {{ JENKINS_SERVICE_NAME }}_edit
   roleRef:
     name: edit
   subjects:
   - kind: ServiceAccount
-    name: ${JENKINS_SERVICE_NAME}
+    name: {{ JENKINS_SERVICE_NAME }}
 - apiVersion: v1
   kind: Service
   metadata:
-    name: ${JNLP_SERVICE_NAME}
+    name: {{ JNLP_SERVICE_NAME }}
   spec:
     ports:
     - name: agent
@@ -153,17 +153,17 @@ objects:
       protocol: TCP
       targetPort: 50000
     selector:
-      name: ${JENKINS_SERVICE_NAME}
+      name: {{ JENKINS_SERVICE_NAME }}
     sessionAffinity: None
     type: ClusterIP
 - apiVersion: v1
   kind: Service
   metadata:
     annotations:
-      service.alpha.openshift.io/dependencies: '[{"name": "${JNLP_SERVICE_NAME}",
+      service.alpha.openshift.io/dependencies: '[{"name": "{{ JNLP_SERVICE_NAME }}",
         "namespace": "", "kind": "Service"}]'
       service.openshift.io/infrastructure: "true"
-    name: ${JENKINS_SERVICE_NAME}
+    name: {{ JENKINS_SERVICE_NAME }}
   spec:
     ports:
     - name: web
@@ -172,7 +172,7 @@ objects:
       protocol: TCP
       targetPort: 8080
     selector:
-      name: ${JENKINS_SERVICE_NAME}
+      name: {{ JENKINS_SERVICE_NAME }}
     sessionAffinity: None
     type: ClusterIP
 parameters:

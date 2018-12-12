@@ -12,14 +12,14 @@ objects:
 - apiVersion: v1
   kind: RoleBinding
   groupNames:
-  - system:serviceaccounts:${APP_NAMESPACE}
+  - system:serviceaccounts:{{ APP_NAMESPACE }}
   metadata:
     name: view
   roleRef:
     name: view
   subjects:
   - kind: SystemGroup
-    name: system:serviceaccounts:${APP_NAMESPACE}
+    name: system:serviceaccounts:{{ APP_NAMESPACE }}
   userNames: 
 parameters:
 - name: APP_NAMESPACE

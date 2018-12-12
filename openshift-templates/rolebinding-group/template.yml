@@ -13,14 +13,14 @@ objects:
 - apiVersion: v1
   kind: RoleBinding
   metadata:
-    name: ${GROUP}_${ROLE}_role
+    name: {{ GROUP }}_{{ ROLE }}_role
   roleRef:
-    name: "${ROLE}"   
+    name: "{{ ROLE }}"   
   subjects:
   - kind: Group
-    name: ${GROUP}                            
+    name: {{ GROUP }}                            
   groupNames:
-  - "${GROUP}"
+  - "{{ GROUP }}"
 parameters:    
 - name: ROLE
   displayName: Role

@@ -6,9 +6,9 @@ objects:
 - apiVersion: v1
   kind: Secret
   stringData:
-    database-name: ${POSTGRES_DATABASE_NAME}
-    database-password: ${POSTGRES_PASSWORD}
-    database-user: ${POSTGRES_USERNAME}
+    database-name: {{ POSTGRES_DATABASE_NAME }}
+    database-password: {{ POSTGRES_PASSWORD }}
+    database-user: {{ POSTGRES_USERNAME }}
   metadata:
     labels:
       app: sonarqube
@@ -17,8 +17,8 @@ objects:
   type: Opaque
 - apiVersion: v1
   stringData:
-    password: ${SONAR_LDAP_BIND_PASSWORD}
-    username: ${SONAR_LDAP_BIND_DN}
+    password: {{ SONAR_LDAP_BIND_PASSWORD }}
+    username: {{ SONAR_LDAP_BIND_DN }}
   kind: Secret
   metadata:
     name: sonar-ldap-bind-dn
@@ -32,7 +32,7 @@ objects:
     - ReadWriteOnce
     resources:
       requests:
-        storage: ${SONARQUBE_PERSISTENT_VOLUME_SIZE}
+        storage: {{ SONARQUBE_PERSISTENT_VOLUME_SIZE }}
   status: {}
 - apiVersion: v1
   kind: DeploymentConfig
@@ -102,8 +102,8 @@ objects:
             timeoutSeconds: 1
           resources:
             limits:
-              memory: ${POSTGRES_CONTAINER_MEMORY_SIZE_LIMIT}
-              cpu: ${POSTGRES_CONTAINER_CPU_LIMIT}
+              memory: {{ POSTGRES_CONTAINER_MEMORY_SIZE_LIMIT }}
+              cpu: {{ POSTGRES_CONTAINER_CPU_LIMIT }}
             requests:
               memory: 1Gi
           securityContext:
@@ -183,37 +183,37 @@ objects:
           - name: FORCE_AUTHENTICATION
             value: "true"
           - name: PROXY_HOST
-            value: ${PROXY_HOST}
+            value: {{ PROXY_HOST }}
           - name: PROXY_PORT
-            value: ${PROXY_PORT}
+            value: {{ PROXY_PORT }}
           - name: PROXY_USER
-            value: ${PROXY_USER}
+            value: {{ PROXY_USER }}
           - name: PROXY_PASSWORD
-            value: ${PROXY_PASSWORD}
+            value: {{ PROXY_PASSWORD }}
           - name: LDAP_URL
-            value: ${SONAR_LDAP_URL}
+            value: {{ SONAR_LDAP_URL }}
           - name: LDAP_REALM
-            value: ${SONAR_AUTH_REALM}
+            value: {{ SONAR_AUTH_REALM }}
           - name: LDAP_AUTHENTICATION
-            value: ${SONAR_LDAP_BIND_METHOD}
+            value: {{ SONAR_LDAP_BIND_METHOD }}
           - name: LDAP_USER_BASEDN
-            value: ${SONAR_BASE_DN}
+            value: {{ SONAR_BASE_DN }}
           - name: LDAP_USER_REAL_NAME_ATTR
-            value: ${SONAR_LDAP_USER_REAL_NAME_ATTR}
+            value: {{ SONAR_LDAP_USER_REAL_NAME_ATTR }}
           - name: LDAP_USER_EMAIL_ATTR
-            value: ${SONAR_LDAP_USER_EMAIL_ATTR}
+            value: {{ SONAR_LDAP_USER_EMAIL_ATTR }}
           - name: LDAP_USER_REQUEST
-            value: ${SONAR_LDAP_USER_REQUEST}
+            value: {{ SONAR_LDAP_USER_REQUEST }}
           - name: LDAP_GROUP_BASEDN
-            value: ${SONAR_LDAP_GROUP_BASEDN}
+            value: {{ SONAR_LDAP_GROUP_BASEDN }}
           - name: LDAP_GROUP_REQUEST
-            value: ${SONAR_LDAP_GROUP_REQUEST}
+            value: {{ SONAR_LDAP_GROUP_REQUEST }}
           - name: LDAP_GROUP_ID_ATTR
-            value: ${SONAR_LDAP_GROUP_ID_ATTR}
+            value: {{ SONAR_LDAP_GROUP_ID_ATTR }}
           - name: LDAP_CONTEXTFACTORY
-            value: ${SONAR_LDAP_CONTEXTFACTORY}
+            value: {{ SONAR_LDAP_CONTEXTFACTORY }}
           - name: SONAR_AUTOCREATE_USERS
-            value: ${SONAR_AUTOCREATE_USERS}
+            value: {{ SONAR_AUTOCREATE_USERS }}
           - name: LDAP_BINDDN
             valueFrom:
               secretKeyRef:
@@ -342,7 +342,7 @@ objects:
     - ReadWriteOnce
     resources:
       requests:
-        storage: ${POSTGRES_PERSISTENT_VOLUME_CLAIM_SIZE}
+        storage: {{ POSTGRES_PERSISTENT_VOLUME_CLAIM_SIZE }}
   status: {}
 parameters:
   - description: Password for the Posgres Database to be used by Sonarqube

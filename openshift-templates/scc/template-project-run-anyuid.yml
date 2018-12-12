@@ -3,7 +3,7 @@ kind: Template
 objects:
 - readOnlyRootFilesystem: false
   users:
-  - system:serviceaccount:${NAMESPACE}:${NAME}
+  - system:serviceaccount:{{ NAMESPACE }}:{{ NAME }}
   allowPrivilegedContainer: false
   allowHostPorts: false
   groups:
@@ -20,7 +20,7 @@ objects:
   fsGroup:
     type: RunAsAny
   apiVersion: v1
-  priority: "${PRIORITY_LEVEL}"
+  priority: "{{ PRIORITY_LEVEL }}"
   volumes:
   - configMap
   - downwardAPI
@@ -38,7 +38,7 @@ objects:
     annotations:
       kubernetes.io/description: anyuid provides all features of the restricted SCC
         but allows users to run with any UID and any GID.
-    name: "${NAME}-anyuid"
+    name: "{{ NAME }}-anyuid"
 apiVersion: v1
 parameters:
 - required: true
@@ -56,4 +56,4 @@ parameters:
     to the most privileged.
   name: PRIORITY_LEVEL
 metadata:
-  name: "${NAME}"
+  name: "{{ NAME }}"

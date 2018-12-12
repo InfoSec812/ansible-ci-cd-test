@@ -16,16 +16,16 @@ objects:
   kind: ImageStream
   metadata:
     labels:
-      name: "${NAME}"
-      app: "${NAME}"
-    name: "${NAME}"
+      name: "{{ NAME }}"
+      app: "{{ NAME }}"
+    name: "{{ NAME }}"
   spec:
     tags:
     - annotations:
-        openshift.io/imported-from: "${CONTAINER_IMAGE}"
+        openshift.io/imported-from: "{{ CONTAINER_IMAGE }}"
       from:
         kind: DockerImage
-        name: "${CONTAINER_IMAGE}"
+        name: "{{ CONTAINER_IMAGE }}"
       importPolicy: {}
       name: latest
       referencePolicy:
@@ -33,46 +33,46 @@ objects:
 - kind: PersistentVolumeClaim
   apiVersion: v1
   metadata:
-    name: "${NAME}"
+    name: "{{ NAME }}"
   spec:
     accessModes:
     - ReadWriteOnce
     resources:
       requests:
-        storage: "${VOLUME_CAPACITY}"
+        storage: "{{ VOLUME_CAPACITY }}"
 - apiVersion: v1
   kind: DeploymentConfig
   metadata:
-    name: "${NAME}"
+    name: "{{ NAME }}"
     labels:
-      app: "${NAME}"
+      app: "{{ NAME }}"
   spec:
     replicas: 1
     selector:
-      name: "${NAME}"
+      name: "{{ NAME }}"
     strategy:
       type: Recreate
     template:
       metadata:
         labels:
-          name: "${NAME}"
+          name: "{{ NAME }}"
       spec:
         containers:
-        - image: "${NAME}"
+        - image: "{{ NAME }}"
           imagePullPolicy: Always
-          name: "${NAME}"
+          name: "{{ NAME }}"
           ports:
           - containerPort: 8081
             protocol: TCP
           resources:
             limit:
-              memory: ${MEMORY_LIMIT}
+              memory: {{ MEMORY_LIMIT }}
             requests:
               memory: 256Mi
           terminationMessagePath: "/dev/termination-log"
           volumeMounts:
           - mountPath: "/nexus-data"
-            name: "${NAME}"
+            name: "{{ NAME }}"
         dnsPolicy: ClusterFirst
         restartPolicy: Always
         securityContext:
@@ -81,48 +81,48 @@ objects:
         terminationGracePeriodSeconds: 30
         volumes:
         - persistentVolumeClaim:
-            claimName: "${NAME}"
-          name: "${NAME}"
+            claimName: "{{ NAME }}"
+          name: "{{ NAME }}"
     test: false
     triggers:
     - type: ConfigChange
     - imageChangeParams:
         automatic: true
         containerNames:
-        - "${NAME}"
+        - "{{ NAME }}"
         from:
           kind: ImageStreamTag
-          name: "${NAME}:latest"
+          name: "{{ NAME }}:latest"
       type: ImageChange
 - apiVersion: v1
   kind: Service
   metadata:
     labels:
-      name: "${NAME}"
-      app: "${NAME}"
-    name: "${NAME}"
+      name: "{{ NAME }}"
+      app: "{{ NAME }}"
+    name: "{{ NAME }}"
   spec:
     ports:
     - port: 8081
       protocol: TCP
       targetPort: 8081
     selector:
-      name: "${NAME}"
+      name: "{{ NAME }}"
     sessionAffinity: None
     type: ClusterIP
 - apiVersion: v1
   kind: Route
   metadata:
     labels:
-      name: "${NAME}"
-      app: "${NAME}"
-    name: "${NAME}"
+      name: "{{ NAME }}"
+      app: "{{ NAME }}"
+    name: "{{ NAME }}"
   spec:
     port:
       targetPort: 8081
     to:
       kind: Service
-      name: "${NAME}"
+      name: "{{ NAME }}"
       weight: 100
     wildcardPolicy: None
 parameters:

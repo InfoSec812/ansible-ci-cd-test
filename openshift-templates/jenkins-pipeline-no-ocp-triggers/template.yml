@@ -8,21 +8,21 @@ objects:
   kind: BuildConfig
   metadata:
     labels:
-      build: "${NAME}"
-      name: "${NAME}-pipeline"
+      build: "{{ NAME }}"
+      name: "{{ NAME }}-pipeline"
       type: "pipeline"
-    name: "${NAME}-pipeline"
+    name: "{{ NAME }}-pipeline"
   spec:
-    runPolicy: "${RUN_POLICY}"
+    runPolicy: "{{ RUN_POLICY }}"
     source:
-      contextDir: "${PIPELINE_CONTEXT_DIR}"
+      contextDir: "{{ PIPELINE_CONTEXT_DIR }}"
       git:
-        ref: "${PIPELINE_SOURCE_REPOSITORY_REF}"
-        uri: "${PIPELINE_SOURCE_REPOSITORY_URL}"
+        ref: "{{ PIPELINE_SOURCE_REPOSITORY_REF }}"
+        uri: "{{ PIPELINE_SOURCE_REPOSITORY_URL }}"
       type: Git
     strategy:
       jenkinsPipelineStrategy:
-        jenkinsfilePath: "${PIPELINE_FILENAME}"
+        jenkinsfilePath: "{{ PIPELINE_FILENAME }}"
       type: JenkinsPipeline
 parameters:
 - name: NAME

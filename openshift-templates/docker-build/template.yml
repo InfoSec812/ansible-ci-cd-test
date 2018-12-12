@@ -2,7 +2,7 @@
 kind: Template
 apiVersion: v1
 metadata:
-  name: "${NAME}"
+  name: "{{ NAME }}"
   annotations:
     openshift.io/display-name: Generic Dockerfile Build
 objects:
@@ -10,37 +10,37 @@ objects:
   kind: ImageStream
   metadata:
     labels:
-      build: "${NAME}"
-      app: "${NAME}"
-    name: "${NAME}"
+      build: "{{ NAME }}"
+      app: "{{ NAME }}"
+    name: "{{ NAME }}"
 - apiVersion: v1
   kind: BuildConfig
   metadata:
     labels:
-      build: "${NAME}"
-      app: "${NAME}"
+      build: "{{ NAME }}"
+      app: "{{ NAME }}"
       type: "image"
-    name: "${NAME}"
+    name: "{{ NAME }}"
   spec:
     nodeSelector:
     output:
       to:
         kind: ImageStreamTag
-        name: "${NAME}:latest"
+        name: "{{ NAME }}:latest"
     postCommit: {}
     resources: {}
     runPolicy: Serial
     source:
-      contextDir: "${SOURCE_CONTEXT_DIR}"
+      contextDir: "{{ SOURCE_CONTEXT_DIR }}"
       git:
-        ref: "${SOURCE_REPOSITORY_REF}"
-        uri: "${SOURCE_REPOSITORY_URL}"
+        ref: "{{ SOURCE_REPOSITORY_REF }}"
+        uri: "{{ SOURCE_REPOSITORY_URL }}"
       type: Git
     strategy:
       type: Docker
     triggers:
     - github:
-        secret: "${GITHUB_WEBHOOK_SECRET}"
+        secret: "{{ GITHUB_WEBHOOK_SECRET }}"
       type: GitHub
     - type: ConfigChange
     - type: ImageChange
