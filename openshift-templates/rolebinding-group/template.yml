@@ -1,5 +1,5 @@
 ---
-kind: Template
+kind: List
 apiVersion: v1
 metadata:
   name: "add-role-to-group"
